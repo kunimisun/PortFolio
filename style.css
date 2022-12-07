@@ -1,0 +1,433 @@
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  letter-spacing: 0.15m;
+}
+
+/*========= LoadingのためのCSS ===============*/
+
+/* Loading背景画面設定　*/
+#splash {
+  /*fixedで全面に固定*/
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  text-align: center;
+  color: #fff;
+}
+
+/* Loading画像中央配置　*/
+#splash_text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  width: 100%;
+}
+
+/*IE11対策用バーの線の高さ※対応しなければ削除してください*/
+#splash_text svg {
+  height: 2px;
+}
+
+/*割れる画面のアニメーション*/
+.loader_cover {
+  width: 100%;
+  height: 50%;
+  background-color: #333;
+  transition: all 0.2s cubic-bezier(0.04, 0.435, 0.315, 0.9);
+  transform: scaleY(1);
+}
+/*上の画面*/
+.loader_cover-up {
+  transform-origin: center top;
+}
+
+/*下の画面*/
+.loader_cover-down {
+  position: absolute;
+  bottom: 0;
+  transform-origin: center bottom;
+}
+/*クラス名がついたらY軸方向に0*/
+.coveranime {
+  transform: scaleY(0);
+}
+
+body {
+  background: rgba(238, 238, 238);
+  color: (1, 1, 1);
+}
+
+/* ----------------------------------------------------ここからメニュー */
+#g-nav {
+  /*position:fixed;にし、z-indexの数値を小さくして最背面へ*/
+  position: fixed;
+  z-index: -1;
+  opacity: 0; /*はじめは透過0*/
+  /*ナビの位置と形状*/
+  top: 0;
+  width: 100%;
+  height: 100vh; /*ナビの高さ*/
+  background: #999;
+  /*動き*/
+  transition: all 0.3s;
+}
+
+/*アクティブクラスがついたら透過なしにして最前面へ*/
+#g-nav.panelactive {
+  opacity: 1;
+  z-index: 999;
+}
+
+/*ナビゲーションの縦スクロール*/
+#g-nav.panelactive #g-nav-list {
+  /*ナビの数が増えた場合縦スクロール*/
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  height: 100vh; /*表示する高さ*/
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/*ナビゲーション*/
+#g-nav ul {
+  display: none;
+  /*ナビゲーション天地中央揃え*/
+  position: absolute;
+  z-index: 999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#g-nav.panelactive ul {
+  display: block;
+}
+
+/*リストのレイアウト設定*/
+
+#g-nav li {
+  list-style: none;
+  text-align: center;
+}
+
+#g-nav li a {
+  color: #333;
+  text-decoration: none;
+  padding: 10px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: bold;
+}
+
+/*========= ボタンのためのCSS ===============*/
+.openbtn1 {
+  position: fixed;
+  z-index: 9999; /*ボタンを最前面に*/
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+}
+
+/*×に変化*/
+.openbtn1 span {
+  display: inline-block;
+  transition: all 0.4s;
+  position: absolute;
+  left: 14px;
+  height: 3px;
+  border-radius: 2px;
+  background-color: #666;
+  width: 45%;
+}
+
+.openbtn1 span:nth-of-type(1) {
+  top: 15px;
+}
+
+.openbtn1 span:nth-of-type(2) {
+  top: 23px;
+}
+
+.openbtn1 span:nth-of-type(3) {
+  top: 31px;
+}
+
+.openbtn1.active span:nth-of-type(1) {
+  top: 18px;
+  left: 18px;
+  transform: translateY(6px) rotate(-45deg);
+  width: 30%;
+}
+
+.openbtn1.active span:nth-of-type(2) {
+  opacity: 0;
+}
+
+.openbtn1.active span:nth-of-type(3) {
+  top: 30px;
+  left: 18px;
+  transform: translateY(-6px) rotate(45deg);
+  width: 30%;
+}
+
+/* ----------------------------------------------------ここまでメニュー */
+
+/*矢印が右に移動して背景がつく*/
+
+.btnarrow5 {
+  /*矢印の基点とするためrelativeを指定*/
+  position: relative;
+  /*ボタンの形状*/
+  border: 1px solid #555;
+  border-radius: 2px;
+  padding: 8px 30px;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  outline: none;
+  /*アニメーションの指定*/
+  transition: all 0.2s linear;
+}
+
+.btnarrow5:hover {
+  background: #333;
+  color: #fff;
+}
+
+/*矢印と下線の形状*/
+.btnarrow5::before {
+  content: "";
+  /*絶対配置で下線の位置を決める*/
+  position: absolute;
+  top: 50%;
+  right: -26px;
+  /*下線の形状*/
+  width: 40px;
+  height: 1px;
+  background: #333;
+  /*アニメーションの指定*/
+  transition: all 0.2s linear;
+}
+
+.btnarrow5::after {
+  content: "";
+  /*絶対配置で矢印の位置を決める*/
+  position: absolute;
+  top: 20%;
+  right: -21px;
+  /*矢印の形状*/
+  width: 1px;
+  height: 12px;
+  background: #333;
+  transform: skewX(45deg);
+  /*アニメーションの指定*/
+  transition: all 0.2s linear;
+}
+
+/*hoverした際の移動*/
+.btnarrow5:hover::before {
+  right: -30px;
+}
+
+.btnarrow5:hover::after {
+  right: -25px;
+}
+
+/* ここまで矢印ーーーーーーーーーーーーーーーーーーーーーーーー */
+
+.TextTyping span {
+  display: none;
+}
+
+/*文字列後ろの線の設定*/
+.TextTyping::after {
+  content: "|";
+  animation: typinganime 0.8s ease infinite;
+}
+
+@keyframes typinganime {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/*========= ここまでタイピング ===============*/
+
+#top {
+  margin: 30px;
+  font-family: "Hiragino Mincho ProN w2", "Yu Mincho", "MS PMincho", serif;
+}
+
+#top h1 {
+  padding-top: 50px;
+  text-align: center;
+}
+
+#works {
+  font-family: "Hiragino Mincho ProN w2", "Yu Mincho", "MS PMincho", serif;
+  margin-top: 200px;
+}
+#works h1 {
+  text-align: left;
+  padding-left: 70px;
+  border-bottom: 1.5px solid;
+  display: inline-block;
+}
+
+.works {
+  font-family: "Hiragino Mincho ProN w2", "Yu Mincho", "MS PMincho", serif;
+  padding-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.box {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.5);
+  top: 390px;
+}
+
+.works h2 {
+  font-size: 20px;
+  padding-bottom: 10px;
+}
+
+.work {
+  display: flex;
+  margin: 50px;
+  position: relative;
+  padding-top: 50px;
+}
+
+.work h2 {
+  transform: rotateZ(180deg);
+  writing-mode: vertical-rl;
+  text-align: end;
+  padding: 5px;
+}
+.work img {
+  width: 230px;
+  height: 350px;
+  object-fit: cover;
+
+  filter: brightness(100%) contrast(70%) saturate(100%) sepia(10%);
+}
+.Site {
+  top: 0px;
+}
+.Image {
+  top: 40px;
+}
+.Programing {
+  top: 80px;
+}
+.Movie {
+  top: 20px;
+}
+.three {
+  top: 60px;
+}
+.Craft {
+  top: 100px;
+}
+
+/* ----------------------------------------------------works*/
+#About {
+  font-family: "Hiragino Mincho ProN w3";
+  margin-top: 200px;
+}
+#About h1 {
+  text-align: left;
+  padding-left: 70px;
+  border-bottom: 1.5px solid;
+  display: inline-block;
+  margin: 50px 0;
+}
+.me {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+/*タイムライン全体の設定*/
+.timeline {
+  max-width: 700px;
+  width: 100%;
+  margin: 50px auto;
+  padding: 0 30px;
+}
+
+.timeline li {
+  /*線の起点とするためrelativeを設定*/
+  position: relative;
+  list-style: none;
+  padding: 0 0 20px 0;
+}
+
+.timeline dl {
+  margin: 0 0 20px 3em;
+}
+
+.timeline dd strong {
+  display: block;
+  padding: 10px 0;
+}
+
+/*絶対配置で線を設定*/
+.border-line {
+  /*線の位置*/
+  position: absolute;
+  left: 0.2em;
+  top: 0;
+  width: 2px; /*線の太さ*/
+  height: 0; /*はじめは高さを0に*/
+  background: #ccc;
+}
+
+/*タイムラインの見出し横の丸の位置と形状*/
+.timeline li::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  background: #666;
+  border-radius: 50%;
+}
+
+#Awards {
+  font-family: "Hiragino Mincho ProN w2", "Yu Mincho", "MS PMincho", serif;
+  margin-top: 200px;
+}
+#Awards h1 {
+  text-align: left;
+  padding-left: 70px;
+  border-bottom: 1.5px solid;
+  display: inline-block;
+}
+.Awards {
+  width: 90vw;
+  margin: 0 auto;
+}
+
+.awards li {
+  width: 550px;
+  margin: 0 auto;
+  padding: 30px 0px;
+}
